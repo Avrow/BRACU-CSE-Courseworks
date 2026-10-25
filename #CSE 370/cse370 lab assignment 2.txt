@@ -1,0 +1,198 @@
+
+Setting environment for using XAMPP for Windows.
+USER@DESKTOP-F4MHL6E c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| google_22299227    |
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.024 sec)
+
+MariaDB [(none)]> CREATE DATABASES Company_22299227;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'DATABASES Company_22299227' at line 1
+MariaDB [(none)]> CREATE DATABASE Company_22299227;
+Query OK, 1 row affected (0.003 sec)
+
+MariaDB [(none)]> USE Company_22299227;
+Database changed
+MariaDB [Company_22299227]> CREATE TABLE Employee(
+    -> employee_id CHAR(10),
+    -> first_name VARCHAR(20),
+    -> last_name VARCHAR(20),
+    -> email VARCHAR(60),
+    -> phone_number CHAR(14),
+    -> hire_date DATE,
+    -> job_id CHAR(10),
+    -> salary INT,
+    -> comission_pct DECIMAL(5,3),
+    -> manager_id CHAR(10),
+    -> department_id CHAR(10)
+    -> );
+Query OK, 0 rows affected (0.039 sec)
+
+MariaDB [Company_22299227]> INSERT INTO Employee VALUES
+    -> ('EMP026', 'RAHUL', 'ISLAM', 'rahul.islam@email.com', '01234567890148', '2024-02-15', 'JOB026', 45000, 0.03, 'MNG005', 'DPT005'),
+    -> ('EMP027', 'JANNAT', 'TASMIN', 'jannat.tasmin@email.com', '01234567890149', '2024-01-10', 'JOB027', 47000, NULL, 'MNG006', 'DPT006'),
+    -> ('EMP028', 'ZUBAIR', 'HASAN', 'zubair.hasan@email.com', '01234567890150', '2024-01-05', 'JOB028', 90000, 0.08, NULL, 'DPT007'),
+    -> ('EMP029', 'FATIMA', 'KHAN', 'fatima.khan@email.com', '01234567890151', '2024-02-20', 'JOB029', 51000, 0.05, 'MNG001', 'DPT001'),
+    -> ('EMP030', 'KAMAL', 'UDDIN', 'kamal.uddin@email.com', '01234567890152', '2024-02-22', 'JOB030', 42000, 0.15, 'MNG002', 'DPT002'),
+    -> ('EMP031', 'NASHIT', 'RIZWAN', 'nashit.rizwan@email.com', '01234567890153', '2024-03-05', 'JOB031', 50000, 0.05, 'MNG003', 'DPT003'),
+    -> ('EMP032', 'RIFAT', 'MAHMUD', 'rifat.mahmud@email.com', '01234567890154', '2024-01-30', 'JOB032', 48000, 0.07, 'MNG004', 'DPT008'),
+    -> ('EMP033', 'MEHER', 'AFROZE', 'meher.afroze@email.com', '01234567890155', '2024-02-12', 'JOB007', 47000, 0.02, 'MNG005', 'DPT005'),
+    -> ('EMP034', 'SHARIF', 'HOSSAIN', 'sharif.hossain@email.com', NULL, '2024-01-20', 'JOB034', 55000, 0.06, 'MNG006', 'DPT006'),
+    -> ('EMP035', 'TANIA', 'MALIK', 'tania.malik@email.com', '01234567890156', '2024-02-15', 'JOB035', 58000, 0.04, 'MNG007', 'DPT007'),
+    -> ('EMP036', 'ARAF', 'SAIF', 'araf.saif@email.com', '01234567890157', '2024-03-01', 'JOB036', 49500, 0.05, 'MNG002', 'DPT003'),
+    -> ('EMP037', 'LUBNA', 'SULTANA', 'lubna.sultana@email.com', '01234567890158', '2024-01-05', 'JOB037', 35000, 0.02, 'MNG003', 'DPT004');
+Query OK, 12 rows affected (0.021 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [Company_22299227]> show tables;
++----------------------------+
+| Tables_in_company_22299227 |
++----------------------------+
+| employee                   |
++----------------------------+
+1 row in set (0.001 sec)
+
+MariaDB [Company_22299227]> SELECT * FROM Employee;
++-------------+------------+-----------+--------------------------+----------------+------------+--------+--------+---------------+------------+---------------+
+| employee_id | first_name | last_name | email                    | phone_number   | hire_date  | job_id | salary | comission_pct | manager_id | department_id |
++-------------+------------+-----------+--------------------------+----------------+------------+--------+--------+---------------+------------+---------------+
+| EMP026      | RAHUL      | ISLAM     | rahul.islam@email.com    | 01234567890148 | 2024-02-15 | JOB026 |  45000 |         0.030 | MNG005     | DPT005        |
+| EMP027      | JANNAT     | TASMIN    | jannat.tasmin@email.com  | 01234567890149 | 2024-01-10 | JOB027 |  47000 |          NULL | MNG006     | DPT006        |
+| EMP028      | ZUBAIR     | HASAN     | zubair.hasan@email.com   | 01234567890150 | 2024-01-05 | JOB028 |  90000 |         0.080 | NULL       | DPT007        |
+| EMP029      | FATIMA     | KHAN      | fatima.khan@email.com    | 01234567890151 | 2024-02-20 | JOB029 |  51000 |         0.050 | MNG001     | DPT001        |
+| EMP030      | KAMAL      | UDDIN     | kamal.uddin@email.com    | 01234567890152 | 2024-02-22 | JOB030 |  42000 |         0.150 | MNG002     | DPT002        |
+| EMP031      | NASHIT     | RIZWAN    | nashit.rizwan@email.com  | 01234567890153 | 2024-03-05 | JOB031 |  50000 |         0.050 | MNG003     | DPT003        |
+| EMP032      | RIFAT      | MAHMUD    | rifat.mahmud@email.com   | 01234567890154 | 2024-01-30 | JOB032 |  48000 |         0.070 | MNG004     | DPT008        |
+| EMP033      | MEHER      | AFROZE    | meher.afroze@email.com   | 01234567890155 | 2024-02-12 | JOB007 |  47000 |         0.020 | MNG005     | DPT005        |
+| EMP034      | SHARIF     | HOSSAIN   | sharif.hossain@email.com | NULL           | 2024-01-20 | JOB034 |  55000 |         0.060 | MNG006     | DPT006        |
+| EMP035      | TANIA      | MALIK     | tania.malik@email.com    | 01234567890156 | 2024-02-15 | JOB035 |  58000 |         0.040 | MNG007     | DPT007        |
+| EMP036      | ARAF       | SAIF      | araf.saif@email.com      | 01234567890157 | 2024-03-01 | JOB036 |  49500 |         0.050 | MNG002     | DPT003        |
+| EMP037      | LUBNA      | SULTANA   | lubna.sultana@email.com  | 01234567890158 | 2024-01-05 | JOB037 |  35000 |         0.020 | MNG003     | DPT004        |
++-------------+------------+-----------+--------------------------+----------------+------------+--------+--------+---------------+------------+---------------+
+12 rows in set (0.002 sec)
+
+MariaDB [Company_22299227]> SELECT first_name, last_name,email,phone_number,hire_date,depart_id FROM Employee WHERE hire_date=(SELECT MAX (hire_date) FROM Employee);
+ERROR 1054 (42S22): Unknown column 'depart_id' in 'field list'
+MariaDB [Company_22299227]> SELECT first_name, last_name,email,phone_number,hire_date,department_id FROM Employee WHERE hire_date=(SELECT MAX (hire_date) FROM Employee);
+ERROR 1630 (42000): FUNCTION company_22299227.MAX does not exist. Check the 'Function Name Parsing and Resolution' section in the Reference Manual
+MariaDB [Company_22299227]> SELECT first_name, last_name,email,phone_number,hire_date,department_id FROM Employee WHERE hire_date=(SELECT MAX(hire_date) FROM Employee);
++------------+-----------+-------------------------+----------------+------------+---------------+
+| first_name | last_name | email                   | phone_number   | hire_date  | department_id |
++------------+-----------+-------------------------+----------------+------------+---------------+
+| NASHIT     | RIZWAN    | nashit.rizwan@email.com | 01234567890153 | 2024-03-05 | DPT003        |
++------------+-----------+-------------------------+----------------+------------+---------------+
+1 row in set (0.007 sec)
+
+MariaDB [Company_22299227]> SELECT first_name, last_name,email,phone_number,hire_date,department_id FROM Employee E1 WHERE salery=(SELECT MIN(salary)FROM Employee E2 WHERE E1.department_id = E2.department_id);
+ERROR 1054 (42S22): Unknown column 'salery' in 'where clause'
+MariaDB [Company_22299227]> SELECT first_name, last_name,employee_id,phone_number,salary,department_id FROM Employee E1 WHERE salery=(SELECT MIN(salary) FROM Employee E2 WHERE E1.department_id = E2.department_id);
+ERROR 1054 (42S22): Unknown column 'salery' in 'where clause'
+MariaDB [Company_22299227]> SELECT first_name, last_name,employee_id,phone_number,salary,department_id FROM Employee E1 WHERE salary=(SELECT MIN(salary) FROM Employee E2 WHERE E1.department_id = E2.department_id);
++------------+-----------+-------------+----------------+--------+---------------+
+| first_name | last_name | employee_id | phone_number   | salary | department_id |
++------------+-----------+-------------+----------------+--------+---------------+
+| RAHUL      | ISLAM     | EMP026      | 01234567890148 |  45000 | DPT005        |
+| JANNAT     | TASMIN    | EMP027      | 01234567890149 |  47000 | DPT006        |
+| FATIMA     | KHAN      | EMP029      | 01234567890151 |  51000 | DPT001        |
+| KAMAL      | UDDIN     | EMP030      | 01234567890152 |  42000 | DPT002        |
+| RIFAT      | MAHMUD    | EMP032      | 01234567890154 |  48000 | DPT008        |
+| TANIA      | MALIK     | EMP035      | 01234567890156 |  58000 | DPT007        |
+| ARAF       | SAIF      | EMP036      | 01234567890157 |  49500 | DPT003        |
+| LUBNA      | SULTANA   | EMP037      | 01234567890158 |  35000 | DPT004        |
++------------+-----------+-------------+----------------+--------+---------------+
+8 rows in set (0.007 sec)
+
+MariaDB [Company_22299227]> SELECT first_name, last_name,employee_id,commission_pct,department_id FROM Employee_id FROM Employee WHERE department_id='DPT007' AND commission_pct ALL(
+    -> SELECT commission_pct FROM Employee WHERE department_id = 'DPT005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM Employee WHERE department_id='DPT007' AND commission_pct ALL(
+SELECT com...' at line 1
+MariaDB [Company_22299227]> SELECT first_name, last_name,employee_id,commission_pct,department_id FROM Employee_id FROM Employee WHERE department_id='DPT007' AND commission_pct ALL( SELECT commission_pct FROM Employee WHERE department_id = 'DPT005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM Employee WHERE department_id='DPT007' AND commission_pct ALL( SELECT com...' at line 1
+MariaDB [Company_22299227]> ELECT first_name, last_name,employee_id,commission_pct,department_id
+    -> FROM Employee
+    -> WHERE department_id='DPT007'
+    -> AND commission_pct < ALL( SELECT commission_pct FROM Employee WHERE department_id = 'DPT005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ELECT first_name, last_name,employee_id,commission_pct,department_id
+FROM Em...' at line 1
+MariaDB [Company_22299227]> ELECT first_name, last_name,employee_id,commission_pct,department_id
+    ->     -> FROM Employee
+    ->     -> WHERE department_id='DPT007'
+    ->
+    ->
+    ->     -> WHERE department_id='DPT007'
+    ->
+    -> SELECT first_name, last_name, employee_id, commission_pct, department_idFROM EmployeeWHERE department_id = 'DPT007' AND commission_pct < ALL (SELECT commission_pct FROM Employee WHERE department_id = 'DPT005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ELECT first_name, last_name,employee_id,commission_pct,department_id
+    -> F...' at line 1
+MariaDB [Company_22299227]> SELECT first_name, last_name, employee_id, commission_pct, department_idFROM EmployeeWHERE department_id = 'DPT007' AND commission_pct < ALL (SELECT commission_pct FROM Employee WHERE department_id = 'DPT005');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'department_id = 'DPT007' AND commission_pct < ALL (SELECT commission_pct FROM...' at line 1
+MariaDB [Company_22299227]> SELECT first_name, last_name, employee_id, commission_pct, department_id FROM Employee WHERE department_id = 'DPT007' AND commission_pct < ALL (SELECT commission_pct FROM Employee WHERE department_id = 'DPT005');
+ERROR 1054 (42S22): Unknown column 'commission_pct' in 'field list'
+MariaDB [Company_22299227]> SELECT first_name, last_name, employee_id, comission_pct, department_id FROM Employee WHERE department_id = 'DPT007' AND comission_pct < ALL (SELECT comission_pct FROM Employee WHERE department_id = 'DPT005');
+Empty set (0.007 sec)
+
+MariaDB [Company_22299227]> SELECT department_id, Count(*) AS Total_employees FROM Employee GROUP BY department_id HAVING MAX(salary) <=
+    -> 30000;
+Empty set (0.006 sec)
+
+MariaDB [Company_22299227]> SELECT department_id, job_id, commission_pct FROM Employee E1 WHERE commission_pct < (SELECT MAX(E2.commission_pct) FROM Employee E2 WHERE E1.department_id = E2.department_id AND E1.job_id <> E2.job_id);
+ERROR 1054 (42S22): Unknown column 'commission_pct' in 'field list'
+MariaDB [Company_22299227]> SELECT department_id, job_id, comission_pct FROM Employee E1 WHERE comission_pct < (SELECT MAX(E2.comission_pct) FROM Employee E2 WHERE E1.department_id = E2.department_id AND E1.job_id <> E2.job_id);
++---------------+--------+---------------+
+| department_id | job_id | comission_pct |
++---------------+--------+---------------+
+| DPT005        | JOB007 |         0.020 |
+| DPT007        | JOB035 |         0.040 |
++---------------+--------+---------------+
+2 rows in set (0.001 sec)
+
+MariaDB [Company_22299227]> SELECT DISINCT manager_id FROM Employee GROUP BY manager_id HAVING MIN(salary) >=3500;
+ERROR 1054 (42S22): Unknown column 'DISINCT' in 'field list'
+MariaDB [Company_22299227]> SELECT DISTINCT manager_id FROM Employee GROUP BY manager_id HAVING MIN(salary) >=3500;
++------------+
+| manager_id |
++------------+
+| NULL       |
+| MNG001     |
+| MNG002     |
+| MNG003     |
+| MNG004     |
+| MNG005     |
+| MNG006     |
+| MNG007     |
++------------+
+8 rows in set (0.000 sec)
+
+MariaDB [Company_22299227]> SELECT first_name, last_name, employee_id, email, salary, department_id, comission_pct FROM Employee E1 WHERE comission_pct = (SELECT MIN(comission_pct) FROM Employee E2 WHERE E1.manager_id = E2.manager_id);
++------------+-----------+-------------+--------------------------+--------+---------------+---------------+
+| first_name | last_name | employee_id | email                    | salary | department_id | comission_pct |
++------------+-----------+-------------+--------------------------+--------+---------------+---------------+
+| FATIMA     | KHAN      | EMP029      | fatima.khan@email.com    |  51000 | DPT001        |         0.050 |
+| RIFAT      | MAHMUD    | EMP032      | rifat.mahmud@email.com   |  48000 | DPT008        |         0.070 |
+| MEHER      | AFROZE    | EMP033      | meher.afroze@email.com   |  47000 | DPT005        |         0.020 |
+| SHARIF     | HOSSAIN   | EMP034      | sharif.hossain@email.com |  55000 | DPT006        |         0.060 |
+| TANIA      | MALIK     | EMP035      | tania.malik@email.com    |  58000 | DPT007        |         0.040 |
+| ARAF       | SAIF      | EMP036      | araf.saif@email.com      |  49500 | DPT003        |         0.050 |
+| LUBNA      | SULTANA   | EMP037      | lubna.sultana@email.com  |  35000 | DPT004        |         0.020 |
++------------+-----------+-------------+--------------------------+--------+---------------+---------------+
+7 rows in set (0.001 sec)
+
+MariaDB [Company_22299227]>

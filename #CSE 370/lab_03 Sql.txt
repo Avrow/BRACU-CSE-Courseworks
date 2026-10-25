@@ -1,0 +1,265 @@
+
+Setting environment for using XAMPP for Windows.
+22299227@CSE-10G34L-L27 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 9
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE DATABASE bank;
+ERROR 1007 (HY000): Can't create database 'bank'; database exists
+MariaDB [(none)]> DROP DATABASE bank;\
+Query OK, 6 rows affected (6.269 sec)
+
+MariaDB [(none)]>
+MariaDB [(none)]> DROP DATABASE bank;
+ERROR 1008 (HY000): Can't drop database 'bank'; database doesn't exist
+MariaDB [(none)]>  CREATE DATABASE bank;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> USE bank;
+Database changed
+MariaDB [bank]> create table customer (
+    -> customer_id varchar(10) not null,
+    -> customer_name varchar(20) not null,
+    -> customer_street varchar(30),
+    -> customer_city varchar(30),
+    -> primary key (customer_id));
+Query OK, 0 rows affected (1.014 sec)
+
+MariaDB [bank]> create table branch (
+    -> branch_name varchar(15),
+    -> branch_city varchar(30),
+    -> assets int,
+    -> primary key (branch_name),
+    -> check (assets >= 0));
+Query OK, 0 rows affected (0.459 sec)
+
+MariaDB [bank]> create table account (
+    -> branch_name varchar(15),
+    -> account_number varchar(10) not null,
+    -> balance int,
+    -> primary key (account_number),
+    -> check (balance >= 0));
+Query OK, 0 rows affected (0.431 sec)
+
+MariaDB [bank]> create table loan (
+    -> loan_number varchar(10) not null,
+    -> branch_name varchar(15),
+    -> amount int,
+    -> primary key (loan_number));
+Query OK, 0 rows affected (0.407 sec)
+
+MariaDB [bank]> create table depositor (
+    -> customer_id varchar(10) not null,
+    -> account_number varchar(10) not null,
+    -> primary key (customer_id,account_number),
+    -> foreign key (customer_id) references customer(customer_id),
+    -> foreign key (account_number) references account(account_number));
+Query OK, 0 rows affected (0.380 sec)
+
+MariaDB [bank]> create table borrower (
+    -> customer_id varchar(10) not null,
+    -> loan_number varchar(10) not null,
+    -> primary key (customer_id, loan_number),
+    -> foreign key (customer_id) references customer(customer_id),
+    -> foreign key (loan_number) references loan(loan_number));
+Query OK, 0 rows affected (0.540 sec)
+
+MariaDB [bank]>
+MariaDB [bank]> SELECT * FROM bank;\
+ERROR 1146 (42S02): Table 'bank.bank' doesn't exist
+MariaDB [bank]> insert into customer values
+    -> ('C-101','Jones', 'Main', 'Harrison'),
+    -> ('C-201','Smith', 'North', 'Rye'),
+    -> ('C-211','Hayes', 'Main', 'Harrison'),
+    -> ('C-212','Curry', 'North', 'Rye'),
+    -> ('C-215','Lindsay', 'Park', 'Pittsfield'),
+    -> ('C-220','Turner', 'Putnam', 'Stamford'),
+    -> ('C-222','Williams', 'Nassau', 'Princeton'),
+    -> ('C-225','Adams', 'Spring', 'Pittsfield'),
+    -> ('C-226','Johnson', 'Alma', 'Palo Alto'),
+    -> ('C-233','Glenn', 'Sand Hill', 'Woodside'),
+    -> ('C-234','Brooks', 'Senator', 'Brooklyn'),
+    -> ('C-255','Green', 'Walnut', 'Stamford');
+Query OK, 12 rows affected (0.182 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+MariaDB [bank]> insert into branch values
+    -> ('Downtown', 'Brooklyn',9000000),
+    -> ('Redwood', 'Palo Alto',2100000),
+    -> ('Perryridge', 'Horseneck',1700000),
+    -> ('Mianus', 'Horseneck',400000),
+    -> ('Round Hill', 'Horseneck',8000000),
+    -> ('Pownal', 'Bennington',300000),
+    -> ('North Town', 'Rye',3700000),
+    -> ('Brighton', 'Brooklyn',7100000);
+Query OK, 8 rows affected (0.160 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [bank]> insert into account values
+    -> ('Downtown','A-101',500),
+    -> ('Mianus','A-215',700) ,
+    -> ('Perryridge','A-102',400),
+    -> ('Round Hill','A-305',350),
+    -> ('Brighton','A-201',900),
+    -> ('Redwood','A-222',700),
+    -> ('Brighton','A-217',750);
+Query OK, 7 rows affected (0.049 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [bank]> insert into loan values
+    -> ('L-17', 'Downtown', 1000),
+    -> ('L-23', 'Redwood', 2000),
+    -> ('L-15', 'Perryridge', 1500),
+    -> ('L-14', 'Downtown', 1500),
+    -> ('L-93', 'Mianus', 500),
+    -> ('L-11', 'Round Hill', 900),
+    -> ('L-16', 'Perryridge', 1300);
+Query OK, 7 rows affected (0.163 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [bank]> insert into depositor values
+    -> ('C-226', 'A-101'),
+    -> ('C-201', 'A-215'),
+    -> ('C-211', 'A-102'),
+    -> ('C-220', 'A-305'),
+    -> ('C-226', 'A-201'),
+    -> ('C-101', 'A-217'),
+    -> ('C-215', 'A-222');
+Query OK, 7 rows affected (0.061 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [bank]> insert into borrower values
+    -> ('C-101', 'L-17'),
+    -> ('C-201', 'L-23'),
+    -> ('C-211', 'L-15'),
+    -> ('C-226', 'L-14'),
+    -> ('C-212', 'L-93'),
+    -> ('C-201', 'L-11'),
+    -> ('C-222', 'L-17'),
+    -> ('C-225', 'L-16');
+Query OK, 8 rows affected (0.368 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [bank]>
+MariaDB [bank]> SELECT * FROM customer  inner join depositor ON customer.customer_id=depositor.customer_id;
++-------------+---------------+-----------------+---------------+-------------+----------------+
+| customer_id | customer_name | customer_street | customer_city | customer_id | account_number |
++-------------+---------------+-----------------+---------------+-------------+----------------+
+| C-101       | Jones         | Main            | Harrison      | C-101       | A-217          |
+| C-201       | Smith         | North           | Rye           | C-201       | A-215          |
+| C-211       | Hayes         | Main            | Harrison      | C-211       | A-102          |
+| C-215       | Lindsay       | Park            | Pittsfield    | C-215       | A-222          |
+| C-220       | Turner        | Putnam          | Stamford      | C-220       | A-305          |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-101          |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-201          |
++-------------+---------------+-----------------+---------------+-------------+----------------+
+7 rows in set (0.001 sec)
+
+MariaDB [bank]> SELECT * FROM customer left join depositor ON customer.customer_id=depositor.customer_id;
++-------------+---------------+-----------------+---------------+-------------+----------------+
+| customer_id | customer_name | customer_street | customer_city | customer_id | account_number |
++-------------+---------------+-----------------+---------------+-------------+----------------+
+| C-101       | Jones         | Main            | Harrison      | C-101       | A-217          |
+| C-201       | Smith         | North           | Rye           | C-201       | A-215          |
+| C-211       | Hayes         | Main            | Harrison      | C-211       | A-102          |
+| C-212       | Curry         | North           | Rye           | NULL        | NULL           |
+| C-215       | Lindsay       | Park            | Pittsfield    | C-215       | A-222          |
+| C-220       | Turner        | Putnam          | Stamford      | C-220       | A-305          |
+| C-222       | Williams      | Nassau          | Princeton     | NULL        | NULL           |
+| C-225       | Adams         | Spring          | Pittsfield    | NULL        | NULL           |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-101          |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-201          |
+| C-233       | Glenn         | Sand Hill       | Woodside      | NULL        | NULL           |
+| C-234       | Brooks        | Senator         | Brooklyn      | NULL        | NULL           |
+| C-255       | Green         | Walnut          | Stamford      | NULL        | NULL           |
++-------------+---------------+-----------------+---------------+-------------+----------------+
+13 rows in set (0.000 sec)
+
+MariaDB [bank]> SELECT * FROM customer left join depositor ON customer.customer_id=depositor.customer_id UNION  SELECT * FROM customer right join depositor ON customer.customer_id=depositor.customer_id;
++-------------+---------------+-----------------+---------------+-------------+----------------+
+| customer_id | customer_name | customer_street | customer_city | customer_id | account_number |
++-------------+---------------+-----------------+---------------+-------------+----------------+
+| C-101       | Jones         | Main            | Harrison      | C-101       | A-217          |
+| C-201       | Smith         | North           | Rye           | C-201       | A-215          |
+| C-211       | Hayes         | Main            | Harrison      | C-211       | A-102          |
+| C-212       | Curry         | North           | Rye           | NULL        | NULL           |
+| C-215       | Lindsay       | Park            | Pittsfield    | C-215       | A-222          |
+| C-220       | Turner        | Putnam          | Stamford      | C-220       | A-305          |
+| C-222       | Williams      | Nassau          | Princeton     | NULL        | NULL           |
+| C-225       | Adams         | Spring          | Pittsfield    | NULL        | NULL           |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-101          |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-201          |
+| C-233       | Glenn         | Sand Hill       | Woodside      | NULL        | NULL           |
+| C-234       | Brooks        | Senator         | Brooklyn      | NULL        | NULL           |
+| C-255       | Green         | Walnut          | Stamford      | NULL        | NULL           |
++-------------+---------------+-----------------+---------------+-------------+----------------+
+13 rows in set (0.031 sec)
+
+MariaDB [bank]> SELECT * FROM customer inner join depositor ON customer.customer_id = depositor.customer_id inner join account on account.account_number = depositor.account_number;
++-------------+---------------+-----------------+---------------+-------------+----------------+-------------+----------------+---------+
+| customer_id | customer_name | customer_street | customer_city | customer_id | account_number | branch_name | account_number | balance |
++-------------+---------------+-----------------+---------------+-------------+----------------+-------------+----------------+---------+
+| C-101       | Jones         | Main            | Harrison      | C-101       | A-217          | Brighton    | A-217          |     750 |
+| C-201       | Smith         | North           | Rye           | C-201       | A-215          | Mianus      | A-215          |     700 |
+| C-211       | Hayes         | Main            | Harrison      | C-211       | A-102          | Perryridge  | A-102          |     400 |
+| C-215       | Lindsay       | Park            | Pittsfield    | C-215       | A-222          | Redwood     | A-222          |     700 |
+| C-220       | Turner        | Putnam          | Stamford      | C-220       | A-305          | Round Hill  | A-305          |     350 |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-101          | Downtown    | A-101          |     500 |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-201          | Brighton    | A-201          |     900 |
++-------------+---------------+-----------------+---------------+-------------+----------------+-------------+----------------+---------+
+7 rows in set (0.020 sec)
+
+MariaDB [bank]> SELECT * FROM customer,depositor,account WHERE customer.cusmoter_id = depositor.customer_id AND depositor.account_number = account.account_number;
+ERROR 1054 (42S22): Unknown column 'customer.cusmoter_id' in 'where clause'
+MariaDB [bank]> SELECT * FROM customer,depositor,account WHERE customer.customer_id = depositor.customer_id AND depositor.account_number = account.account_number;
++-------------+---------------+-----------------+---------------+-------------+----------------+-------------+----------------+---------+
+| customer_id | customer_name | customer_street | customer_city | customer_id | account_number | branch_name | account_number | balance |
++-------------+---------------+-----------------+---------------+-------------+----------------+-------------+----------------+---------+
+| C-101       | Jones         | Main            | Harrison      | C-101       | A-217          | Brighton    | A-217          |     750 |
+| C-201       | Smith         | North           | Rye           | C-201       | A-215          | Mianus      | A-215          |     700 |
+| C-211       | Hayes         | Main            | Harrison      | C-211       | A-102          | Perryridge  | A-102          |     400 |
+| C-215       | Lindsay       | Park            | Pittsfield    | C-215       | A-222          | Redwood     | A-222          |     700 |
+| C-220       | Turner        | Putnam          | Stamford      | C-220       | A-305          | Round Hill  | A-305          |     350 |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-101          | Downtown    | A-101          |     500 |
+| C-226       | Johnson       | Alma            | Palo Alto     | C-226       | A-201          | Brighton    | A-201          |     900 |
++-------------+---------------+-----------------+---------------+-------------+----------------+-------------+----------------+---------+
+7 rows in set (0.001 sec)
+
+MariaDB [bank]> SELECT * FROM customer inner join borrower ON customer.customer_id = borrower.customer_id inner join ON borrower.loan_number = loan.loan_number WHERE branch_name = "Perryridge";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ON borrower.loan_number = loan.loan_number WHERE branch_name = "Perryridge"' at line 1
+MariaDB [bank]> SELECT * FROM customer inner join borrower ON customer.customer_id = borrower.customer_id inner join loan ON borrower.loan_number = loan.loan_number WHERE branch_name = "Perryridge";
++-------------+---------------+-----------------+---------------+-------------+-------------+-------------+-------------+--------+
+| customer_id | customer_name | customer_street | customer_city | customer_id | loan_number | loan_number | branch_name | amount |
++-------------+---------------+-----------------+---------------+-------------+-------------+-------------+-------------+--------+
+| C-211       | Hayes         | Main            | Harrison      | C-211       | L-15        | L-15        | Perryridge  |   1500 |
+| C-225       | Adams         | Spring          | Pittsfield    | C-225       | L-16        | L-16        | Perryridge  |   1300 |
++-------------+---------------+-----------------+---------------+-------------+-------------+-------------+-------------+--------+
+2 rows in set (0.001 sec)
+
+MariaDB [bank]> SELECT c.customer_name,c.customer_city FROM customer c inner jin borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_number=l.oan_numer WHERE l.brach_name="Perryridge";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'jin borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_n...' at line 1
+MariaDB [bank]> SELECT c.customer_name,c.customer_city FROM customer c inner jin borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_number=loan_numer WHERE l.brach_name="Perryridge";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'jin borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_n...' at line 1
+MariaDB [bank]> SELECT c.customer_name,c.customer_city FROM customer c inner jin borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_number=loan_numer WHERE l.branch_name="Perryridge";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'jin borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_n...' at line 1
+MariaDB [bank]> SELECT c.customer_name,c.customer_city FROM customer c inner join borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_number=loan_numer WHERE l.branch_name="Perryridge";
+ERROR 1054 (42S22): Unknown column 'loan_numer' in 'on clause'
+MariaDB [bank]> SELECT c.customer_name,c.customer_city FROM customer c inner join borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_number=loan_number WHERE l.branch_name="Perryridge";
+ERROR 1052 (23000): Column 'loan_number' in on clause is ambiguous
+MariaDB [bank]> SELECT c.customer_name,c.customer_city FROM customer c inner join borrower b ON c.customer_id = b.customer_id inner join loan l ON b.loan_number=l.loan_number WHERE l.branch_name="Perryridge";
++---------------+---------------+
+| customer_name | customer_city |
++---------------+---------------+
+| Hayes         | Harrison      |
+| Adams         | Pittsfield    |
++---------------+---------------+
+2 rows in set (0.000 sec)
+
+MariaDB [bank]> SELECT c.customer_name,a.account_number FROM customer c inner join depositor d ON c.customer_id=d.customer_id inner join account a ON a.account_number=d.account_number WHERE a.balance between 
